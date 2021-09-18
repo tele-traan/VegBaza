@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">Овощебаза</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Veg/List" id="sets">Наборы</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Veg/List/cheap" id="cheap">Дешёвые</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Veg/List/expsn" id="expsn">Дорогие</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/ShopCart/" id="cart">Корзина</a>
+                        </li>
+
+                    </ul>
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Искать" aria-label="Поиск">
+                        <button class="btn btn-outline-success" type="submit">Поиск</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container mt-5">
+        @RenderBody()
+    </div>
+    <footer class="container">
+        <p class="float-end"><a href="#">Вверх</a></p>
+        <p>© 2017–2021 Овощебаза.рф · <a href="#">Приватность</a> · <a href="#">Условия пользования</a></p>
+    </footer>
+    <script src="~/js/bootstrap.min.js"></script>
+</body>
+</html>

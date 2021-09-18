@@ -1,0 +1,11 @@
+﻿@model Veg
+
+<div class="col-lg-4">
+    <img ="img-thumbnail" src="@Model.img" alt="@Model.name"/>
+    <h2>@Model.name</h2>
+    <p>@Model.shortDesc</p>
+    <p>Цена: @Model.price</p>
+    <p><a  class="btn btn-warning" href="/Veg/List/cart/@Model.id">Подробнее</a></p>
+    <p><a class="btn btn-success">Добавить в корзину</a></p>
+
+</div>

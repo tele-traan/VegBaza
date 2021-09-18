@@ -1,0 +1,16 @@
+﻿@model HomeViewModel
+<h1>Лучшие корзины</h1>
+<div class="row mt-5 mb-2">
+    @{ 
+        int counter = 0;
+        foreach (var veg in Model.favVegs)
+        {
+                @Html.Partial("AllVegs", veg);
+            counter++;
+            
+            }
+        <script>
+            alert(@counter);
+        </script>
+    }
+</div>

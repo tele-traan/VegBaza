@@ -1,0 +1,10 @@
+<h1>@Model.currCategory</h1>
+<h3>@ViewBag.Category</h3>
+<div class="row mt-5 mb-2">
+    @{ 
+        foreach(Veg veg in Model.allVegs)
+            {
+                @Html.Partial("AllVegs", veg);
+            }
+    }
+</div>

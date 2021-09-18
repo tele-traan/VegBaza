@@ -1,0 +1,6 @@
+﻿<h1>Корзина</h1>
+            @foreach(var v in Model.shopCart.listShopItems)
+            {
+                <p>Наименование: @v.veg.name</p>
+                <p>Цена: @v.veg.price</p>
+            }
