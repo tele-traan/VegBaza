@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <style>
+        #navibar{
+            background-color: forestgreen;
+            color: white;
+            text-decoration:none;
+        }
+        #srchbtn{
+            background-color: white;
+            border-color:lightgray;
+            color:darkgray;
+            transition: background-color 0.5s;
+        }
+        #srch-btn:hover{
+            background-color: lightgray;
+        }
+        .nav-link, .navbar-brand{
+            text-decoration:none;
+            color:white;
+        }
+        .nav-link:hover, .navbar-brand:hover{
+            color:lightgray;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-md fixed-top" id="navibar">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">Овощебаза</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Veg" asp-action="List">Наборы</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Veg" asp-action="List" asp-route-category="cheap">Дешёвые</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Veg" asp-action="List" asp-route-category="expsn">Премиум-варианты</a>
+                        </li><li class="nav-item">
+                        <a class="nav-link" asp-controller="ShopCart" asp-action="Index" id="cart">Корзина (@ViewData["ItemsCount"])</a>
+                        </li>
+                    </ul>
+                    <form name="searcher" method="post" class="d-flex" asp-controller="Search" asp-action="Result">
+                        <input value="@ViewData["GetDetails"]" name="key" class="form-control me-2" type="search" placeholder="Искать" aria-label="Поиск">
+                        <button class="btn btn-success" id="srchbtn" type="submit">Поиск</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container mt-5">
+        <hr />
+        @RenderBody()
+    </div>
+    <script src="~/js/bootstrap.min.js"></script>
+</body>
+</html>

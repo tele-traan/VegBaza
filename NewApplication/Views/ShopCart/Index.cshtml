@@ -1,0 +1,43 @@
+﻿@model ShopCartViewModel
+<h1>Корзина</h1>
+@{ bool empty = true;}
+<script>var vegsArr = []</script>
+@foreach (var v in Model.shopCart.listShopItems)
+{
+    <div class="col-lg-4" id="container@(v.veg.id)">
+        <img src="@v.veg.img" alt="@v.veg.name" />
+        <h2>@v.veg.name</h2>
+        <p>@v.veg.shortDesc</p>
+        <p>Цена: @v.veg.price</p>
+        <p id="quantity@(v.veg.id)">Количество: @v.amount</p>
+        <p>
+
+            <a class="btn btn-danger" asp-controller="ShopCart" asp-action="RemoveItem" asp-route-id="@v.veg.id">Удалить</a>
+            <a class="btn btn-outline-danger" asp-controller="ShopCart" asp-action="MinusItem" id="buttonPlus@(v.veg.id)">-</a>
+            <a class="btn btn-outline-success" asp-controller="ShopCart" asp-action="PlusItem" id="buttonPlus@(v.veg.id)">+</a>
+            <a class="btn btn-success" asp-controller="OneVeg" asp-action="OneVeg" asp-route-id="@v.veg.id">Подробнее</a>
+        </p>
+    </div>
+    <hr style="border:none; height:1px;" />
+    empty = false;
+}
+@if (!empty)
+{
+    int totalPrice = 0;
+    foreach (var v in Model.shopCart.listShopItems)
+    {
+        var amount = v.amount;
+        while (amount != 0)
+        {
+            totalPrice += v.price;
+            amount--;
+        }
+    }
+    <div style="white-space:nowrap;">
+        <h2 style="display:inline-block;">Итоговая цена: </h2>
+        <h1 style="display:inline-block">@totalPrice</h1><h2 style="display:inline-block">руб</h2>
+        <a class="btn btn-success" asp-controller="Order" asp-action="CheckOut">Перейти к оформлению заказа</a>
+    </div>
+}
+else
+{<h2>Ваша корзина пуста.</h2>}

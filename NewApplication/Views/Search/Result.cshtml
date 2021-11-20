@@ -1,0 +1,15 @@
+﻿@model SearchViewModel
+<h1>Результаты поиска</h1>
+<div class="row mt-5 mb-2">
+    @if (!Model.vegsFound.Any())
+    {
+        <h2>Ничего не найдено :(</h2>
+    }
+    else
+    {
+        @foreach (var v in Model.vegsFound)
+        {
+            @Html.Partial("AllVegs", v);
+        }
+    }
+</div>

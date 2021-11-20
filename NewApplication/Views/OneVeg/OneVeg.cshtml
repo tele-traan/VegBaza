@@ -1,0 +1,19 @@
+﻿@model OneVegViewModel
+
+<h1>@Model.veg.name</h1>
+<img src="@Model.veg.img" alt="@Model.veg.name" />
+<h2>Описание набора</h2>
+<p>@Model.veg.longDesc</p>
+<p>Цена: @Model.veg.price</p>
+@if (Model.veg.available)
+{
+    <p>Наличие: <b style="color:palegreen">доступен</b></p>
+}
+else
+{
+    <p>Наличие: <b style="color:darkred">недоступен</b></p>
+}
+<p>
+    <a class="btn btn-success" asp-controller="ShopCart"
+       asp-action="addToCart" asp-route-id="@Model.veg.id">В корзину</a>
+</p>
