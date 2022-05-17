@@ -1,10 +1,10 @@
-<h1>@Model.currCategory</h1>
-<h3>@ViewBag.Category</h3>
+@model VegListViewModel
+<h1>@Model.CurrCategory</h1>
 <div class="row mt-5 mb-2">
-    @{ 
-        foreach(Veg veg in Model.allVegs)
-            {
-                @Html.Partial("AllVegs", veg);
-            }
+    @{
+        foreach (Veg veg in Model?.AllVegs)
+        {
+            @Html.Partial("AllVegs", veg);
+        }
     }
 </div>

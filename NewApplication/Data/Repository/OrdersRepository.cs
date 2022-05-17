@@ -5,37 +5,37 @@ using Shop.DB;
 
 namespace Shop.Data.Repository
 {
-    public class OrdersRepository : IAllOrders
+    public class OrdersRepository : IOrdersRepository
     {
-        private readonly AppDBContent appDbContent;
-        private readonly ShopCart shopCart;
+        private readonly AppDbContent _appDbContent;
+        private readonly ShopCart _shopCart;
 
-        public OrdersRepository(AppDBContent appDbContent, ShopCart shopCart)
+        public OrdersRepository(AppDbContent appDbContent, ShopCart shopCart)
         {
-            this.appDbContent = appDbContent;
-            this.shopCart = shopCart;
+            _appDbContent = appDbContent;
+            _shopCart = shopCart;
         }
 
 
-        public void createOrder(Order order)
+        public void CreateOrder(Order order)
         {
-            order.orderTime = DateTime.Now;
-            appDbContent.Order.Add(order);
-            appDbContent.SaveChanges();
+            order.OrderTime = DateTime.Now;
+            _appDbContent.Order.Add(order);
+            _appDbContent.SaveChanges();
 
-            var items = shopCart.listShopItems;
+            var items = _shopCart.ListShopItems;
 
             foreach (var el in items)
             {
-                var orderDetail = new OrderDetail()
+                var orderDetail = new OrderDetail
                 {
-                    VegID = el.veg.id,
-                    orderID = order.id,
-                    price = el.veg.price
+                    VegId = el.Veg.Id,
+                    OrderId = order.Id,
+                    Price = el.Veg.Price
                 };
-                appDbContent.OrderDetail.Add(orderDetail);
+                _appDbContent.OrderDetail.Add(orderDetail);
             }
-            appDbContent.SaveChanges();
+            _appDbContent.SaveChanges();
         }
     }
 }

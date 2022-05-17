@@ -6,12 +6,13 @@ namespace Shop.Data.Repository
 {
     public class CategoryRepository : IVegsCategory
     {
-        private readonly AppDBContent _appDbContent;
+        private readonly AppDbContent _appDbContent;
 
-        public CategoryRepository(AppDBContent appDbContent)
+        public CategoryRepository(AppDbContent appDbContent)
         {
             _appDbContent = appDbContent;
         }
-        public IEnumerable<Category> AllCategories => _appDbContent.Category;
+        public IEnumerable<Category> GetAllCategories()
+            => _appDbContent.Category;
     }
 }

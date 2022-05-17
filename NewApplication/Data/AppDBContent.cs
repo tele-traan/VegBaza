@@ -1,13 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Shop.Data.Models;
+using System.Linq;
 
 namespace Shop.DB
 {
-    public class AppDBContent : DbContext
+    public sealed class AppDbContent : DbContext
     {
-        public AppDBContent(DbContextOptions<AppDBContent> options) : base(options)
+        public AppDbContent(DbContextOptions<AppDbContent> options) : base(options)
         {
-
+            Database.EnsureCreated();
         }
 
         public DbSet<Veg> Veg {get; set;}

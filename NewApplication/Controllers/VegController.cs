@@ -10,42 +10,57 @@ namespace Shop.Controllers
 {
     public class VegController : Controller
     {
-        private readonly IAllVegs _allVegs;
+        private readonly IVegsRepository _vegsRepository;
         private readonly IVegsCategory _allCategory;
+        private readonly ShopCart _shopCart;
 
-        public VegController(IAllVegs _allV, IVegsCategory _allVC)
+        public VegController(IVegsRepository v, IVegsCategory allVc, ShopCart s)
         {
-            _allVegs = _allV;
-            _allCategory = _allVC;
+            _vegsRepository = v;
+            _allCategory = allVc;
+            _shopCart = s;
         }
-        [Route("Veg/List")]
-        [Route("Veg/List/{category}")]
         public ViewResult List(string category)
         {
             IEnumerable<Veg> vegs = null;
-            string currCategory = "";
+            string currCategory;
             if (string.IsNullOrEmpty(category))
             {
-                vegs = _allVegs.Vegs.OrderBy(i => i.id);
+                vegs = _vegsRepository.GetAllVegs().OrderBy(i => i.Id);
+                currCategory = "Наборы";
             }
             else
             {
                 if (string.Equals("cheap", category, StringComparison.OrdinalIgnoreCase))
                 {
-                    vegs = _allVegs.Vegs.Where(i => i.Category.categoryName.Equals("�������")).OrderBy(i => i.id);
-                    currCategory = "���������";
+                    vegs = _vegsRepository.GetAllVegs().Where(i => i.Category.CategoryName.Equals("Дешёвые")).OrderBy(i => i.Id);
+                    currCategory = "Экономные";
                 }
                 else if (string.Equals("expsn", category, StringComparison.OrdinalIgnoreCase))
                 {
-                    vegs = _allVegs.Vegs.Where(i => i.Category.categoryName.Equals("�������")).OrderBy(i => i.id);
-                    currCategory = "";
+                    vegs = _vegsRepository.GetAllVegs().Where(i => i.Category.CategoryName.Equals("Дорогие")).OrderBy(i => i.Id);
+                    currCategory = "Премиум-класс";
+                }
+                else
+                {
+                    currCategory = "Неизвестная ошибка. Обратитесь в тех-поддержку сайта";
                 }
             }
             var vegObj = new VegListViewModel
             {
-                allVegs = vegs,
-                currCategory = currCategory,
+                AllVegs = vegs,
+                CurrCategory = currCategory,
             };
+            int count = 0;
+            foreach (var v in _shopCart.GetShopItems())
+            {
+                int amount = v.Amount;
+                while (amount != 0)
+                {
+                    count++; amount--;
+                }
+            }
+            ViewData["ItemsCount"] = count;
             return View(vegObj);
         }
     }

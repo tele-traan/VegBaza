@@ -1,0 +1,18 @@
+﻿@inject ShopCart _shopCart
+@{
+    var count = 0;
+    var query = _shopCart.GetShopItems().Select(item => item.Amount);
+    foreach (var a in query)
+    {
+        var amount = a;
+        while (amount != 0)
+        {
+            count++; amount--;
+        }
+    }
+}
+<li class="nav-item">
+    <a class="nav-link" asp-controller="ShopCart" asp-action="Index" id="cart">
+        Корзина (@count)
+    </a>
+</li>

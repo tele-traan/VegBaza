@@ -1,11 +1,58 @@
 ﻿@model Veg
 
-<div class="col-lg-4">
-    <img ="img-thumbnail" src="@Model.img" alt="@Model.name"/>
-    <h2>@Model.name</h2>
-    <p>@Model.shortDesc</p>
-    <p>Цена: @Model.price</p>
-    <p><a  class="btn btn-warning" href="/Veg/List/cart/@Model.id">Подробнее</a></p>
-    <p><a class="btn btn-success">Добавить в корзину</a></p>
+<style>
+    #img {
+        padding: 10px;
+        margin-top: 20px;
+        margin-left: 20px;
+        width: 50%;
+        display: inline-block;
+        transition: 0.3s;
+    }
 
+        #img:hover {
+            opacity: 1;
+        }
+
+    #info {
+        display: inline;
+    }
+
+    #name {
+        font-size: 25px;
+        color: chartreuse;
+    }
+
+    #short {
+        font-size: 15px;
+        color: darkseagreen;
+    }
+
+    #price {
+        font-size: 17px;
+        color: chartreuse;
+    }
+
+    hr {
+        color: darkgray;
+        height: 1px;
+        margin: 20px;
+    }
+
+    #container {
+        display: inline;
+    }
+</style>
+<div>
+    <div id="img"><img src="@Model.Img" /></div>
+    <div id="info">
+
+        <div id="name"><h1>@Model.Name</h1></div>
+        <div id="short">@Model.ShortDesc</div>
+        <div id="price"><h2>@Model.Price руб.</h2></div>
+        <a class="btn btn-success" asp-controller="ShopCart" asp-action="AddToCart"
+           asp-route-id="@Model.Id">В корзину</a>
+
+    </div>
 </div>
+<hr />

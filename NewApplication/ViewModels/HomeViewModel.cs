@@ -2,8 +2,8 @@
 using Shop.Data.Models;
 namespace Shop.ViewModels
 {
-    public class HomeViewModel
+    public class HomeViewModel 
     {
-        public IEnumerable<Veg> favVegs { get; set; }
+        public IEnumerable<Veg> FavVegs { get; set; }
     }
 }

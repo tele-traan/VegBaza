@@ -4,6 +4,6 @@ namespace Shop.Data.Interfaces
 {
     public interface IVegsCategory
     {
-       IEnumerable<Category> AllCategories { get; }
+        IEnumerable<Category> GetAllCategories();
     }
 }

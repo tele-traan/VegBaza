@@ -4,7 +4,8 @@ namespace Shop.ViewModels
 {
     public class VegListViewModel
     {
-        public IEnumerable<Veg> allVegs { get; set; }
-        public string currCategory { get; set; }
+        public IEnumerable<Veg> AllVegs { get; set; }
+        public string CurrCategory { get; set; }
+        public ShopCart ShopCart;
     }
 }

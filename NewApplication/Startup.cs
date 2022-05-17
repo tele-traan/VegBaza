@@ -8,6 +8,10 @@ using Shop.Data.Interfaces;
 using Shop.DB;
 using Microsoft.AspNetCore.Http;
 using Shop.Data.Models;
+using Microsoft.AspNetCore.DataProtection;
+using System.IO;
+using Shop.MailServices;
+using Shop.Hubs;
 
 namespace NewApplication
 {
@@ -23,36 +27,41 @@ namespace NewApplication
         }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDBContent>
+            services.AddSignalR();
+            services.AddDataProtection().
+                PersistKeysToFileSystem(new DirectoryInfo("DataProtectionKeys"));
+            services.AddDbContext<AppDbContent>
                 (options => options.UseSqlServer(_confstring.GetConnectionString("DefaultConnection")));
-            services.AddTransient<IAllVegs, VegRepository>();
+            services.AddTransient<MailService>();
+            services.AddTransient<IVegsRepository, VegRepositoryRepository>();
             services.AddTransient<IVegsCategory, CategoryRepository>();
             services.AddTransient<IAllOrders, OrdersRepository>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped(sp => ShopCart.GetCart(sp));
+            services.AddScoped(ShopCart.GetCart);
             services.AddMvc();
             services.AddMemoryCache();
             services.AddSession();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            
             app.UseDeveloperExceptionPage();
             app.UseStatusCodePages();
             app.UseStaticFiles();
             app.UseSession();
             app.UseRouting();
-
+            app.UseCors(builder => builder.AllowAnyOrigin());
             app.UseEndpoints(endpoints => {
+                endpoints.MapHub<CartHub>("/cartaction");
                 endpoints.MapControllerRoute(name: "default", "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(name: "cart", "{controller=ShopCart}/{hubaction?}");
                 endpoints.MapControllerRoute(name: "categoryFilter", "Veg/{action}/{category?}",
                     defaults: new { Controller = "Veg", action = "List" });
             });
 
-            using (var scope = app.ApplicationServices.CreateScope())
-            {
-                AppDBContent content = scope.ServiceProvider.GetRequiredService<AppDBContent>();
-                DBObjects.Initial(content);
-            }
+            using var scope = app.ApplicationServices.CreateScope();
+            AppDbContent content = scope.ServiceProvider.GetRequiredService<AppDbContent>();
+            DbObjects.Initial(content);
         }
     }
 }

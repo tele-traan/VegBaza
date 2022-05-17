@@ -8,44 +8,44 @@ namespace Shop.Data.Models
     public class Order
     {
         [BindNever]
-        public int id { get; set; }
+        public int Id { get; set; }
 
 
         [Display(Name = "Введите имя")]
         [StringLength(15)]
         [Required(ErrorMessage = "Вы не ввели имя!")]
-        public string name { get; set; }
+        public string Name { get; set; }
 
 
         [Display(Name = "Фамилия")]
         [StringLength(15)]
         [Required(ErrorMessage = "Вы не ввели фамилию!")]
-        public string surname { get; set; }
+        public string Surname { get; set; }
 
 
         [Display(Name = "Адрес")]
         [StringLength(50)]
         [Required(ErrorMessage = "Вы не ввели адрес!")]
-        public string adress { get; set; }
+        public string Adress { get; set; }
 
 
         [Display(Name = "Номер телефона")]
         [DataType(DataType.PhoneNumber)]
         [StringLength(40)]
         [Required(ErrorMessage = "Вы не ввели телефон!")]
-        public string phone { get; set; }
+        public string Phone { get; set; }
 
 
         [Display(Name = "Email")]
         [DataType(DataType.EmailAddress)]
         [StringLength(25)]
         [Required(ErrorMessage = "Вы не ввели эл.почту!")]
-        public string email { get; set; }
+        public string Email { get; set; }
 
 
         [BindNever]
         [ScaffoldColumn(false)]
-        public DateTime orderTime { get; set; }
-        public List<OrderDetail> orderDetails { get; set; }
+        public DateTime OrderTime { get; set; }
+        public List<OrderDetail> OrderDetails { get; set; }
     }
 }

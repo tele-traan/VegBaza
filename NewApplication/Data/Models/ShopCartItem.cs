@@ -2,9 +2,10 @@
 {
     public class ShopCartItem
     {
-        public int id { get; set; }
-        public Veg veg { get; set; }
-        public string price { get; set; }
+        public int Id { get; set; }
+        public int Amount { get; set; }
+        public Veg Veg { get; set; }
+        public ushort Price { get; set; }
         public string ShopCartId { get; set; }
     }
 }

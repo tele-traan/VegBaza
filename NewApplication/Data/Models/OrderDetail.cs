@@ -2,12 +2,12 @@
 {
     public class OrderDetail
     {
-        public int ID { get; set; }
-        public int orderID { get; set; }
-        public int VegID { get; set; }
+        public int Id { get; set; }
+        public int OrderId { get; set; }
+        public int VegId { get; set; }
 
-        public string price { get; set; }
-        public virtual Veg veg { get; set; }
-        public virtual Order order { get; set; }
+        public ushort Price { get; set; }
+        public virtual Veg Veg { get; set; }
+        public virtual Order Order { get; set; }
     }
 }
