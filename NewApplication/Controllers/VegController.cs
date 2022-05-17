@@ -51,16 +51,6 @@ namespace Shop.Controllers
                 AllVegs = vegs,
                 CurrCategory = currCategory,
             };
-            int count = 0;
-            foreach (var v in _shopCart.GetShopItems())
-            {
-                int amount = v.Amount;
-                while (amount != 0)
-                {
-                    count++; amount--;
-                }
-            }
-            ViewData["ItemsCount"] = count;
             return View(vegObj);
         }
     }

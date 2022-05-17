@@ -17,18 +17,8 @@ namespace Shop.Controllers
         }
         public ViewResult Index()
         {
-            var count = 0;
-            var query = _shopCart.GetShopItems().Select(item => item.Amount).ToList();
-            foreach(var a in query)
-            {
-                var amount = a;
-                while(amount != 0)
-                {
-                    count++; amount--;
-                }
-            }
-            ViewData["ItemsCount"] = count;
-            return View(new HomeViewModel { FavVegs = _vegsRepository.GetFavVegs() });
+            var favVegs = _vegsRepository.GetFavVegs();
+            return View(new HomeViewModel { FavVegs = favVegs });
         }
     }
 }

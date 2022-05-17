@@ -13,31 +13,38 @@ using System.IO;
 using Shop.MailServices;
 using Shop.Hubs;
 
-namespace NewApplication
+namespace Shop
 {
     public class Startup
     {
 
-        private IConfigurationRoot _confstring;
+        private readonly IConfigurationRoot _confRoot;
 
         public Startup(IWebHostEnvironment hostEnv)
         {
-            _confstring = new ConfigurationBuilder()
+            _confRoot = new ConfigurationBuilder()
                 .SetBasePath(hostEnv.ContentRootPath).AddJsonFile("dbsettings.json").Build();
         }
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSignalR();
+            
             services.AddDataProtection().
                 PersistKeysToFileSystem(new DirectoryInfo("DataProtectionKeys"));
+            
+            var connectionString = _confRoot.GetConnectionString("DefaultConnection");
+            
             services.AddDbContext<AppDbContent>
-                (options => options.UseSqlServer(_confstring.GetConnectionString("DefaultConnection")));
-            services.AddTransient<MailService>();
-            services.AddTransient<IVegsRepository, VegRepositoryRepository>();
+                (options => options.UseSqlServer(connectionString));
+            
+            services.AddTransient<IVegsRepository, VegsRepository>();
             services.AddTransient<IVegsCategory, CategoryRepository>();
-            services.AddTransient<IAllOrders, OrdersRepository>();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<IOrdersRepository, OrdersRepository>();
+            
             services.AddScoped(ShopCart.GetCart);
+            
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            
             services.AddMvc();
             services.AddMemoryCache();
             services.AddSession();
@@ -53,14 +60,14 @@ namespace NewApplication
             app.UseCors(builder => builder.AllowAnyOrigin());
             app.UseEndpoints(endpoints => {
                 endpoints.MapHub<CartHub>("/cartaction");
-                endpoints.MapControllerRoute(name: "default", "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapControllerRoute(name: "cart", "{controller=ShopCart}/{hubaction?}");
-                endpoints.MapControllerRoute(name: "categoryFilter", "Veg/{action}/{category?}",
-                    defaults: new { Controller = "Veg", action = "List" });
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute("cart", "{controller=ShopCart}/{hubaction?}");
+                endpoints.MapControllerRoute("categoryFilter", "Veg/{action}/{category?}",
+                    new { Controller = "Veg", action = "List" });
             });
 
             using var scope = app.ApplicationServices.CreateScope();
-            AppDbContent content = scope.ServiceProvider.GetRequiredService<AppDbContent>();
+            var content = scope.ServiceProvider.GetRequiredService<AppDbContent>();
             DbObjects.Initial(content);
         }
     }

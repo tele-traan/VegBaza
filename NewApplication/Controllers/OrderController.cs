@@ -10,13 +10,11 @@ namespace Shop.Controllers
     {
         private readonly IOrdersRepository _ordersRepository;
         private readonly ShopCart _shopCart;
-        private readonly MailService _mailService;
 
-        public OrderController(IOrdersRepository ia, ShopCart s, MailService m)
+        public OrderController(IOrdersRepository ia, ShopCart s)
         {
             _ordersRepository = ia;
             _shopCart = s;
-            _mailService = m;
         }
 
         public IActionResult CheckOut() =>View();
@@ -32,7 +30,7 @@ namespace Shop.Controllers
 
             if (!ModelState.IsValid) return View(order);
             _ordersRepository.CreateOrder(order);
-            _mailService.SendEmail(order);
+            MailService.SendEmail(order);
             return RedirectToAction("Complete");
 
         }
@@ -40,7 +38,6 @@ namespace Shop.Controllers
         {
             ViewBag.Message = "Успешно";
             _shopCart.ClearCart();
-            ViewData["ItemsCount"] = 0;
             
             return View();
         } 

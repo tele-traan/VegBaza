@@ -24,17 +24,6 @@ namespace Shop.Controllers
                 break;
                 
             }
-            var count = 0;
-            var query = _shopCart.GetShopItems().Select(i=>i.Amount);
-            foreach (var a in query)
-            {
-                var amount = a;
-                while (amount != 0)
-                {
-                    count++; amount--;
-                }
-            }
-            ViewData["ItemsCount"] = count;
             return View(obj);
 
         }
